@@ -1,0 +1,19 @@
+#catagoryDiv{
+    clear: left;
+    background-color: aqua;
+    width: 100vw;
+    height: 100px;
+}
+.cataDiv{
+    float: left;
+    margin-left: 30px;
+    width: 60px;
+    height: 60px;
+}
+.cataImg {
+    width: 50px;
+    height: 50px;
+    
+}
+.cataText{
+}

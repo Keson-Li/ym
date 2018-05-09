@@ -1,0 +1,84 @@
+#codeBox {
+    width: 100vw;
+    height: auto;
+}
+#box1 {
+    width: 45vw;
+    height: 100px;
+    background-color: blue;
+    float: left;
+}
+#box2 {
+    width: 45vw;
+    height: 100px;
+    background-color:blueviolet;
+    float: left
+}
+#bigbox {
+    width: 100vw;
+    height: auto;
+}
+#desDiv {
+    width: 80vw;
+    height: 10vh;
+    justify-content: center;
+    /* display: inline; */
+    background-color: brown;
+    margin-left: 10vw;
+    border-radius: 30px;
+}
+#shopDiv {
+    float: left;
+}
+#comminentDiv {
+}
+#catagoryDiv{
+    clear: left;
+    background-color: aqua;
+    width: 100vw;
+    height: 100px;
+}
+.cataDiv{
+    float: left;
+    margin-left: 30px;
+    width: 60px;
+    height: 60px;
+}
+.cataImg {
+    width: 50px;
+    height: 50px;
+    
+}
+.cataText{
+}
+#onSaleDiv{
+    clear: left
+}
+.cata_icon{
+    width: 50px;
+    height: 50px;
+    float: left;
+    margin-right: 20px;
+    margin-left: 20px;
+    
+}
+.lineFirst{
+    clear: left;
+    border-color: black;
+    width: 40vw;
+    float: left;
+}
+.lineLatter{
+    border-color: black;
+    width: 40vw;
+    float: left;
+}
+#more{
+    float: left;
+    margin: 10px;
+}
+#index_ad_img{
+    width: 100vw;
+    height: 150px;
+
+}
