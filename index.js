@@ -45,10 +45,53 @@ app.get("/products", function(req, resp){
     resp.sendFile(pF+"/products.html");   
 });
 
-app.get("/Jadmin", function(req, resp){
+app.get("/admin", function(req, resp){
     resp.sendFile(mM+"/login.html");   
 });
 
+app.get("/main", function(req, resp){
+    if(req.session.userID != null){
+        resp.sendFile(mM+"/main.html");
+    }else{
+        resp.sendFile(mM+"/login.html"); 
+    }
+       
+});
+
+app.get("/addProducts", function(req, resp){
+    if(req.session.userID != null){
+        resp.sendFile(mM+"/addProduct.html");
+    }else{
+        resp.sendFile(mM+"/login.html"); 
+    }
+       
+});
+
+app.get("/modifyProduct", function(req, resp){
+    if(req.session.userID != null){
+        resp.sendFile(mM+"/modifyProduct.html");
+    }else{
+        resp.sendFile(mM+"/login.html"); 
+    }
+       
+});
+
+app.get("/modifyType", function(req, resp){
+    if(req.session.userID != null){
+        resp.sendFile(mM+"/modifyType.html"); 
+    }else{
+        resp.sendFile(mM+"/login.html"); 
+    }
+      
+});
+
+app.get("/statistic", function(req, resp){
+    if(req.session.userID != null){
+        resp.sendFile(mM+"/statistic.html");
+    }else{
+        resp.sendFile(mM+"/login.html"); 
+    }      
+});
 
 // --------------------------------communicating with database---------------------------
 var DB = new Client({
@@ -58,82 +101,97 @@ var DB = new Client({
     db:'yomall'
 });
 
-DB.query('SHOW Tables', function(err, rows) {
-    if (err)
-      throw err;
-    console.dir(rows);
-  });
-var query = DB.query("SELECT * FROM auth_user WHERE id > 1");
-query.on('result', function(res) {
-// `res` is a streams2+ Readable object stream
-res.on('data', function(row) {
-    console.dir(row);
-}).on('end', function() {
-    console.log('Result set finished');
-});
-}).on('end', function() {
-console.log('No more result sets!');
-}); 
-DB.end();
+// DB.query('SHOW Tables', function(err, rows) {
+//     if (err)
+//       throw err;
+//     // console.dir(rows);
+//     console.log(typeof (rows));
+//   });
+// var query = DB.query("SELECT * FROM auth_user WHERE id > 1");
+// query.on('result', function(res) {
+// // `res` is a streams2+ Readable object stream
+// res.on('data', function(row) {
+//     // console.dir(row);
+//     // console.log(typeof (row));
+// }).on('end', function() {
+//     console.log('Result set finished');
+// });
+// }).on('end', function() {
+// console.log('No more result sets!');
+// }); 
+// DB.end();
 
 
-
-app.post("/admin", function(req,resp){
-    var password = req.body.password;
-    var username = req.body.username;
-    var email = req.body.email;
-    pg.connect(dbURL, function(err, client, done){
-        if(err){
-            console.log(err);
-            resp.end("FAIL");
-        }
-        
-        client.query("INSERT INTO users(username, email, password) values ($1, $2, $3)", [username,email,password], function(err, result){
-            done();
-            if(err){
-                console.log("err occur")
-            }
-            
-        })
-    })
-    
-    resp.send({
-        status:"success",
-    });
-});
-
-
+// -------------------------------------login-----------------------------------------
 app.post("/login", function(req,resp){
     var password = req.body.password;
-    var email = req.body.email;
-    pg.connect(dbURL, function(err, client, done){
-        if(err){
-            console.log(err);
-            resp.end("FAIL");
+    var username = req.body.empId;
+    DB.query('SELECT * FROM auth_user WHERE username = ? AND password = ?',
+                [ username, password ], function(err, rows) {
+        if (err)
+            throw err;
+
+        if(rows.length == 1 ){
+            req.session.userID = rows[0].id;
+            resp.send({
+                status:"success",
+            });
+
+            console.log('user and password are correct!');
+        }else{
+            resp.send({
+                status:"fail",
+            });
         }
-        
-        client.query("select * from users where password = $1 and email = $2", [password,email], function(err, result){
-            done();
-            if(err){
-                console.log("err occur")
-            }
-            if(result.rows.length > 0){
-                req.session.user = result.rows[0].id;
-                req.session.email = result.rows[0].email;
-                resp.send({
-                    status:"success",
-                });
-            }else{
-                resp.send({
-                    status:"fail"
-                });
-            }
-            
-        })
-    })
+    });
+    DB.end(); 
+});
+
+// -------------------------------------get all product-----------------------------------------
+app.post("/checkAllProduct", function(req,resp){
+    var password = req.body.password;
+    var email = req.body.email;
+    DB.query('SELECT id, name FROM product', function(err, rows) {
+        if (err)
+            throw err;
+
+        if(rows.length > 0 ){
+            resp.send({
+                status:"success",
+                products:rows
+            });
+        }else{
+            resp.send({
+                status:"noProduct",
+            });
+        }
+    });
+    DB.end(); 
     
 
 });
+
+
+// -------------------------------------add a product -----------------------------------------
+app.post("/addProducts", function(req, resp){
+    var name = req.body.name;
+    var title = req.body.title;
+    var origin_place = req.body.originPlace;
+    var catagory = 1;
+    var price = req.body.price;
+    var origin_price = req.body.originPrice;
+    var description = req.body.description;
+    DB.query('insert into product(name, title, origin_place, price, origin_price, description ) values(?,?,?,?,?,?)', 
+                                [ name, title, origin_place, price, origin_price, description ], function(err, rows) {
+        if (err)
+            throw err;
+
+        console.log(rows);
+    });
+    DB.end();
+       
+});
+
 
 
 app.post("/createitem", function(req,resp){

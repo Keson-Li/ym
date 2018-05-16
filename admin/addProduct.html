@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Product Management System</title>
+    <link rel="stylesheet" type="text/css" href="css/addProduct.css" />
+</head>
+<body>
+    <div class="topnav">
+        <a href="/main">主页</a>
+        <a class="active" href="/addProducts">添加产品</a>
+        <a href="/modifyProduct">产品管理</a>
+        <a href="/modifyType">分类管理</a>
+        <a href="/statistic">统计</a>
+    </div>
+    <div id='addProduct'>
+        添加产品：<br><br>
+        <form id='productDetail' action="/addProducts" method='post'>
+            名字: <input type="text" name="name" ><br>
+            显示标题: <input type="text" id='title' name="title" ><br>
+            产地: <input type="text" name="originPlace" ><br>
+            分类: <select name="allCatagory"></select><br>
+            实际价钱: <input type="text" name="price"><br>
+            原价: <input type="text" name="originPrice"><br>
+            描述:<br> <textarea rows="8" cols="100" name='description'>输入产品描述</textarea><br>
+            <input type="submit" value="Submit">
+        </form>   
+    </div>
+    <!-- <script src='/scripts/addProductbundle.js'></script> -->
+</body>
+</html>
+

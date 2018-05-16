@@ -1,4 +1,4 @@
-# !/bin/bash
+# # !/bin/bash
 scp -r ./admin wp:/home/admin/webapp/
 scp -r ./build wp:/home/admin/webapp/
 scp -r ./css wp:/home/admin/webapp/
