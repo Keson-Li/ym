@@ -11,6 +11,7 @@ var config = {
         "login":jF+"/login.js",
         "main":jF+"/main.js",
         "modifyProduct":jF+"/modifyProduct.js",
+        "modifyType":jF+"/modifyType.js",
         "productDetail":jF+"/productDetail.js",
         "products":jF+"/products.js",
         "purchase":jF+"/purchase.js",

@@ -15,18 +15,20 @@
     </div>
     <div id='addProduct'>
         添加产品：<br><br>
-        <form id='productDetail' action="/addProducts" method='post'>
-            名字: <input type="text" name="name" ><br>
+        <!-- <form id='productDetail' action="/addProducts" method='post'> -->
+        <form id='productDetail' accept-charset="ISO-8859-1" >
+            名字: <input type="text" id='name' name="name" ><br>
             显示标题: <input type="text" id='title' name="title" ><br>
-            产地: <input type="text" name="originPlace" ><br>
-            分类: <select name="allCatagory"></select><br>
-            实际价钱: <input type="text" name="price"><br>
-            原价: <input type="text" name="originPrice"><br>
-            描述:<br> <textarea rows="8" cols="100" name='description'>输入产品描述</textarea><br>
-            <input type="submit" value="Submit">
-        </form>   
+            产地: <input type="text" id='originPlace' name="originPlace" ><br>
+            分类: <select id='allCatagory' name="allCatagory"></select><br>
+            实际价钱: <input type="text" id='price' name="price">*<br>
+            原价: <input type="text" id='originPrice' name="originPrice">*<br>
+            描述:<br> <textarea rows="8" cols="100"  name='description' id='description'>输入产品描述</textarea><br>
+            <input type="submit" value="确认">
+        </form>  
     </div>
-    <!-- <script src='/scripts/addProductbundle.js'></script> -->
+    <div id='confirmInfo'></div>
+    <script src='/scripts/addProductbundle.js'></script>
 </body>
 </html>
 

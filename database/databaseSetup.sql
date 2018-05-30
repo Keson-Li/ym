@@ -9,10 +9,16 @@ CREATE TABLE IF NOT EXISTS auth_user (
 	email	varchar ( 254 ) NOT NULL,
 	is_staff	bool NOT NULL DEFAULT false,
 	is_active	bool NOT NULL DEFAULT true,
-	date_joined	datetime NOT NULL DEFAULT now(),
+	date_joined	TIMESTAMP  NOT NULL DEFAULT CURRENT_TIMESTAMP,
 	last_name	varchar ( 150 ) NOT NULL,
 	PRIMARY KEY (id)
 ) ENGINE=INNODB;
+
+-- CREATE
+--     TRIGGER `auth_user_trigger` after INSERT ON `auth_user` 
+--     FOR EACH ROW BEGIN
+--       SET NEW.date_joined = NOW();
+-- END;
 
                                         
 CREATE TABLE IF NOT EXISTS catagory (
@@ -32,13 +38,13 @@ CREATE TABLE IF NOT EXISTS product (
     price	float,
     origin_price	float,
 	is_active	bool NOT NULL DEFAULT false,
-	is_popular	bool NOT NULL DEFAULT false,		--人气榜单
+	is_popular	bool NOT NULL DEFAULT false,		-- 人气榜单
 	is_newMan	bool NOT NULL DEFAULT false, 		-- 新人福利社
 	is_newUpdated	bool NOT NULL DEFAULT false,    -- 四月更新
-    is_promoting	bool NOT NULL DEFAULT false, 	--当红牛市 赶紧入市/ 单品推广
-	is_heat	bool NOT NULL DEFAULT false, 			--今日疯抢
-	is_own	bool NOT NULL DEFAULT true,				--自营
-	is_event_sale	bool NOT NULL DEFAULT false,	--节日推广
+    is_promoting	bool NOT NULL DEFAULT false, 	-- 当红牛市 赶紧入市/ 单品推广
+	is_heat	bool NOT NULL DEFAULT false, 			-- 今日疯抢
+	is_own	bool NOT NULL DEFAULT true,				-- 自营
+	is_event_sale	bool NOT NULL DEFAULT false,	-- 节日推广
 	PRIMARY KEY (id),
 	CONSTRAINT unique_product_name UNIQUE (name),
 	INDEX (catagory_id),
@@ -57,7 +63,7 @@ CREATE TABLE IF NOT EXISTS comment (
 			ON UPDATE CASCADE ON DELETE RESTRICT
 ) ENGINE=INNODB;
 
-CREATE TABLE IF NOT EXISTS promote_group (  --当红牛市 赶紧入市/ 单品推广
+CREATE TABLE IF NOT EXISTS promote_group (  -- 当红牛市 赶紧入市/ 单品推广
 	id	integer NOT NULL AUTO_INCREMENT,
 	productID	integer NOT NULL,
 	is_active	bool NOT NULL DEFAULT false,
@@ -72,14 +78,12 @@ CREATE TABLE IF NOT EXISTS promote_group (  --当红牛市 赶紧入市/ 单品�
 		ON UPDATE CASCADE ON DELETE RESTRICT
 ) ENGINE=INNODB;
 
-CREATE TABLE IF NOT EXISTS promote_type (  --节日推广
+CREATE TABLE IF NOT EXISTS promote_type (  -- 节日推广
 	id	integer NOT NULL AUTO_INCREMENT,
     reason	varchar ( 50 ) NOT NULL,
 	allProductID	varchar ( 1000 ) NOT NULL, -- including all promoting products's id
 	is_active	bool NOT NULL DEFAULT false,
     price	integer NOT NULL,
     expired_date	datetime NOT NULL,
-	PRIMARY KEY (id),
+	PRIMARY KEY (id)
 ) ENGINE=INNODB;
-
-

@@ -1,4 +1,4 @@
--- DROP DATABASE yomall;
+DROP DATABASE yomall;
 CREATE DATABASE yomall;
 DELETE FROM mysql.user WHERE user='yomall_admin';
 FLUSH PRIVILEGES;

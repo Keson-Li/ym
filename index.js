@@ -126,32 +126,32 @@ var DB = new Client({
 app.post("/login", function(req,resp){
     var password = req.body.password;
     var username = req.body.empId;
-    DB.query('SELECT * FROM auth_user WHERE username = ? AND password = ?',
-                [ username, password ], function(err, rows) {
-        if (err)
-            throw err;
+    req.session.userID = 'test';
+    resp.send({status:"success",});
+    // DB.query('SELECT * FROM auth_user WHERE username = ? AND password = ?',
+    //             [ username, password ], function(err, rows) {
+    //     if (err)
+    //         throw err;
 
-        if(rows.length == 1 ){
-            req.session.userID = rows[0].id;
-            resp.send({
-                status:"success",
-            });
+    //     if(rows.length == 1 ){
+    //         req.session.userID = rows[0].id;
+    //         resp.send({
+    //             status:"success",
+    //         });
 
-            console.log('user and password are correct!');
-        }else{
-            resp.send({
-                status:"fail",
-            });
-        }
-    });
-    DB.end(); 
+    //         console.log('user and password are correct!');
+    //     }else{
+    //         resp.send({
+    //             status:"fail",
+    //         });
+    //     }
+    // });
+    // DB.end(); 
 });
 
 // -------------------------------------get all product-----------------------------------------
-app.post("/checkAllProduct", function(req,resp){
-    var password = req.body.password;
-    var email = req.body.email;
-    DB.query('SELECT id, name FROM product', function(err, rows) {
+app.get("/checkAllProduct", function(req,resp){
+    DB.query('SELECT id, name   FROM product', function(err, rows) {
         if (err)
             throw err;
 
@@ -168,6 +168,49 @@ app.post("/checkAllProduct", function(req,resp){
     });
     DB.end(); 
     
+});
+
+// -------------------------------------get all product with catagory-----------------------------------------
+app.get("/checkProductsWithCatagory", function(req,resp){
+    DB.query('SELECT p.id, p.name as name, c.name as cata  FROM product p join catagory c on p.catagory_id = c.id', function(err, rows) {
+        if (err)
+            throw err;
+
+        if(rows.length > 0 ){
+            resp.send({
+                status:"success",
+                products:rows
+            });
+        }else{
+            resp.send({
+                status:"noProduct",
+            });
+        }
+    });
+    DB.end(); 
+    
+});
+
+
+// -------------------------------------get all catagories-----------------------------------------
+app.get("/checkAllCatagories", function(req,resp){
+    DB.query('SELECT id, name FROM catagory', function(err, rows) {
+        if (err)
+            throw err;
+
+        if(rows.length > 0 ){
+            resp.send({
+                status:"success",
+                catagories:rows
+            });
+        }else{
+            resp.send({
+                status:"noCatagory",
+            });
+        }
+    });
+    DB.end(); 
+    
 
 });
 
@@ -177,19 +220,177 @@ app.post("/addProducts", function(req, resp){
     var name = req.body.name;
     var title = req.body.title;
     var origin_place = req.body.originPlace;
-    var catagory = 1;
+    var catagoryName = req.body.allCatagory;
+    // var catagory_id;
     var price = req.body.price;
     var origin_price = req.body.originPrice;
     var description = req.body.description;
-    DB.query('insert into product(name, title, origin_place, price, origin_price, description ) values(?,?,?,?,?,?)', 
-                                [ name, title, origin_place, price, origin_price, description ], function(err, rows) {
+    DB.query('select id from catagory where name = ?', 
+                                [ catagoryName], function(err, rows) {
         if (err)
             throw err;
-
         console.log(rows);
+        if(rows.length >0){
+            var catagory_id = parseInt(rows[0].id);
+            DB.query('insert into product(name, title, origin_place, price, origin_price, description, catagory_id ) values(?,?,?,?,?,?,?)', 
+                                        [ name, title, origin_place, price, origin_price, description, catagory_id ], function(err, rows) {
+                if (err)
+                    throw err;
+                console.log(rows);
+
+                if (rows.info.affectedRows == 1){
+                    resp.send({
+                        status:'success'
+                    })
+                }else{
+                    resp.send({
+                        status:'failed'
+                    })
+
+                }
+            });
+
+        }
+
+    });
+    DB.end();
+});
+
+// -------------------------------------add a catagory -----------------------------------------
+app.post("/addCatagory", function(req, resp){
+    var name = req.body.name;
+    console.log(name);
+    DB.query('insert into catagory(name) values(?)', 
+                                [ name], function(err, rows) {
+        if (err)
+            throw err;
+        console.log(rows);
+
+        if (rows.info.affectedRows == 1){
+            resp.send({
+                status:'success'
+            })
+        }else{
+            resp.send({
+                status:'failed'
+            })
+
+        }
     });
     DB.end();
        
+});
+
+// -------------------------------------set a catagory -----------------------------------------
+app.post("/setCatagory", function(req, resp){
+    var productID = req.body.productID;
+    var cataID = req.body.cataID;
+    DB.query('UPDATE product SET catagory_id = ? WHERE id = ?', 
+                                [ cataID, productID ], function(err, rows) {
+        if (err)
+            throw err;
+        console.log(rows);
+
+        if (rows.info.affectedRows == 1){
+            resp.send({
+                status:'success'
+            })
+        }else{
+            resp.send({
+                status:'failed'
+            })
+
+        }
+    });
+    DB.end();
+       
+});
+
+// -------------------------------------delete a catagory -----------------------------------------
+app.post("/deleteACatagories", function(req, resp){
+    var catagory_id = parseInt(req.body.catagoryID, 10);
+    console.log(typeof(catagory_id));
+    console.log(catagory_id);
+    if(req.body.purpose == 'delete'){
+        DB.query('delete from catagory where id = ?', 
+                                [ catagory_id], function(err, rows) {
+        if (err){
+            if(err.code == 1451){
+                resp.send({
+                    status:'failed',
+                    reason: 'foreign key failed',
+                })
+            }
+        }else{
+            if (rows.info.affectedRows == 1){
+                resp.send({
+                    status:'success'
+                })
+            }else{
+                resp.send({
+                    status:'failed',
+                    reason: 'unknown',
+                })
+    
+            }
+        }
+
+        
+    });
+    DB.end();
+
+    }
+    
+       
+});
+
+// -------------------------------------modify a catagory -----------------------------------------
+app.post("/modifyACatagories", function(req, resp){
+    var name = req.body.name;
+    var catagory_id = parseInt(req.body.catagoryID, 10);
+    DB.query('update catagory set name = ? where id = ?', 
+                                [ name, catagory_id], function(err, rows) {
+        if (err)
+            throw err;
+        console.log(rows);
+
+        if (rows.info.affectedRows == 1){
+            resp.send({
+                status:'success'
+            })
+        }else{
+            resp.send({
+                status:'failed'
+            })
+
+        }
+    });
+    DB.end();
+       
+});
+
+// -------------------------------------get all catagories-----------------------------------------
+app.post("/checkProductPromoto", function(req,resp){
+    var productID = req.body.productID;
+    console.log(productID);
+    DB.query('SELECT name,is_popular, is_newMan, is_newUpdated, is_promoting, is_heat, is_event_sale FROM product where id = ?',[productID], function(err, rows) {
+        if (err)
+            throw err;
+
+        if(rows.length > 0 ){
+            resp.send({
+                status:"success",
+                promoteTypes:rows
+            });
+        }else{
+            resp.send({
+                status:"noproduct",
+            });
+        }
+    });
+    DB.end(); 
+    
+
 });
 
 

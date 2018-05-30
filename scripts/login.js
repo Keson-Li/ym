@@ -8,25 +8,6 @@ $(document).ready(function(){
             regExPassword = /^[a-zA-Z0-9]{5,50}$/;
         
     /**********************************LOGIN*************************************/
-        empInput.onkeyup = function(){
-            if(!regExEmpId.test(empInput.value)){
-                empInput.style.boxShadow = '0 0 35px 1px red';
-                empInput.style.borderBottom = 'red';
-            } else{
-                empInput.style.boxShadow = '0 0 35px 1px limegreen';
-                empInput.style.borderBottom = 'green';
-            }
-        }
-    
-        passInput.onkeyup = function () {
-            if(!regExPassword.test(passInput.value)){
-                passInput.style.boxShadow = '0 0 35px 1px red';
-                passInput.style.borderBottom = 'red';
-            } else{
-                passInput.style.boxShadow = '0 0 35px 1px limegreen';
-                passInput.style.borderBottom = 'green';
-            }
-        }
     
         loginBut.addEventListener("click", function(){
             console.log("Attempting to login");
@@ -42,7 +23,6 @@ $(document).ready(function(){
                         empId: empInput.value
                     },
                     success:function(resp){
-                        console.log(resp);
                         if(resp.status == "success"){
                             location.href = "/main";
                         }else {
