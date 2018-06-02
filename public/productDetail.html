@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>YOMALL ONLINE STORE</title>
+        <link rel="stylesheet" type="text/css" href="../css/productDetail.css" /> 
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js" integrity="sha384-smHYKdLADwkXOn1EmN1qk/HfnUcbVRZyYmZ4qpPea6sjB/pTJ0euyQp0Mk8ck+5T" crossorigin="anonymous"></script>
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" integrity="sha384-WskhaSGFgHYWDcbwN70/dfYBj47jz9qbsMId/iRN3ewGhXQFZCSftd1LZCfmhktB" crossorigin="anonymous">     
+    </head>
+    
+    <body id="productPage">
+
+            <h1 id='productTitle'>卤蛋</h1>
+            <img src="/imgs/ludan.jpg" class="productImg" id="productImg" >
+            <div id='productDetail'>
+                <div id = 'productLable'class="float-left">
+                    
+                    <div id ='productTag1' class="float-left firstTag productTag"></div>
+                    <div id ='productTag2' class="float-left productTag"></div>
+                    <div id ='productTag3' class="float-left productTag"></div>
+
+                    <div id ='newPrice'class="float-left">$16.99</div>
+                    <div id ='oldPrice'class="float-left">$27.99</div>
+                    <div id ='selfTag'class="float-left">自营</div>
+                </div>
+                <div id = 'countDown'class="float-left">
+                    <p>距离结束还有</p>
+                    <div id = 'timer'>
+                    <div id='hour' class ='time float-left'>18</div>
+                    <div class = 'colon float-left'> : </div>
+                    <div id='min' class ='time float-left'>38</div>
+                    <div class = 'colon float-left'> : </div>
+                    <div id='sec' class ='time float-left'>59</div>
+                    </div>
+                </div>
+            </div>
+            <div id = 'productDesc'>
+                <div id= 'desc'>
+                 
+                </div>
+            </div>
+            <div id = 'ad'>Ad place</div>
+            <div id ='productPicDesc'>
+                    <img src="/imgs/ludan_desc.jpg" class="productDescImg" >
+            </div>
+            <div id ='comment'>
+                <div class = 'userComment'>
+                   
+                </div>
+
+            </div>
+        
+        <script src="/script/productDetail.js"></script>
+    </body>
+</html>

@@ -1,0 +1,31 @@
+#catagoryDiv{
+    position:fixed;
+    width:100%;
+    background-color: white;
+    text-align: center;
+}
+
+.cataDiv{
+    margin-top: 2vh;
+    margin-left:4vw;
+    width:15vw;
+    float:left
+}
+.cataImg{
+    height:6vh;
+    width: 10vw;
+}
+
+#cataShow{
+    height: 12vh;
+}
+#cataHidden{
+    background-color: white;
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.2s ease-out;
+}
+.cataText{
+    text-align: center;
+    font-weight: bold;
+}

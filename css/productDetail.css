@@ -1,0 +1,97 @@
+#content{
+    height:13vh
+}
+#productTitle{
+    margin-left: 9vw;
+    font-weight: bold;
+}
+.productImg{
+    width:auto;
+    height: 40vh;
+    margin-left: auto;
+	margin-right: auto;
+	display: block;
+}
+#productPage{
+    overflow: auto;
+}
+#productLable{
+    background-color: red;
+    height: 70px;
+    width:68vw;
+}
+#oldPrice,#selfTag{
+    margin-top: 20px;
+    margin-right: 2vw;
+   
+}
+.firstTag{
+    margin-left:9vw;
+
+}
+.productTag{
+    margin-top: 20px;
+    margin-right: 2vw;
+    background-color: white;
+    color:red;
+    border-radius: 2%;
+}
+#newPrice{
+    font-size: 4vw;
+    font-weight: bold;
+    margin-top: 0.5vh;
+    color: white;
+}
+
+#oldPrice{
+    margin-left: 1vw;
+    color: white;
+    text-decoration: line-through;
+
+}
+
+#selfTag{
+    background-color:red;
+    color:white;
+    border-color: white;
+    border-width: 2px;
+    border-style: solid;
+    box-sizing: border-box;
+
+}
+#countDown{
+    background-color: darkgoldenrod;
+    text-align: center;
+    height: 70px;
+    width:30vw;
+    font-weight: bold;
+    
+}
+#timer{
+    margin-left:auto;
+    margin-right:auto;
+    width: 30%;
+    text-align: center;
+}
+.time{
+    color:white;
+    background-color: black;
+
+}
+#productDesc{
+    margin-left:9vw;
+    padding-top:2vh;
+}
+#desc{
+    margin-top: 4vh;
+}
+#ad{
+    height: 20vh;
+}
+.productDescImg{
+    width:90vw;
+    height: auto;
+    margin-left: auto;
+	margin-right: auto;
+	display: block;
+}

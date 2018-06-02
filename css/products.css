@@ -1,19 +1,89 @@
-#catagoryDiv{
-    clear: left;
-    background-color: aqua;
-    width: 100vw;
-    height: 100px;
+#content{
+    height:13vh
 }
-.cataDiv{
-    float: left;
-    margin-left: 30px;
-    width: 60px;
-    height: 60px;
+.containerT{
+    width:95%;
+    margin: auto;
 }
-.cataImg {
-    width: 50px;
-    height: 50px;
+
+#productPage{
+    background-color:black
+}
+.productTableRow{
+    background-color: blue;
+    max-height: 40vh;
+    border-bottom: 4px;
+    border-bottom-color: black;
+    border-bottom-style: solid;
+}
+
+.productTableDiv{
+    margin-top: 2vh;
+    margin-left:2vw;
+ }
+.productDivL{
+    width:45vw;
+    height: 40vh;
+    max-height:40vh;
+    background-color: white;
+    border-right-color: lightgray;
+    border-right-width: 0.5vw;
+    border-right-style: solid;
     
 }
-.cataText{
+
+
+.productDivR{
+    width:45vw;
+    height: 40vh;
+    max-height: 40vh;
+    background-color: white;
+
+}
+.productImg{
+    width: auto;
+    max-width: 40vw;
+    height:25vh;
+    margin-left: auto;
+	margin-right: auto;
+	display: block;
+
+}
+.productTitle{
+    font-weight: bold;
+    width:10vw;
+    white-space: nowrap;
+    overflow: clip;
+}
+.productDesc{
+    color: gray;
+
+}
+.productPrice{
+    height: 3.5vh;
+}
+.newPrice{
+    float: left;
+    color:red;
+    font-size: 3vw;
+}
+.oldPrice{
+    margin-left: 8vw;
+    font-size: 2vw;
+    color: lightgray;
+    text-decoration: line-through;
+}
+.selfTag{
+    float: left;
+    color: red;
+    border: 1px;
+    border-style: solid;
+    border-color: red;
+}
+.otherTag{
+    float: left;
+    margin-left: 0.5vw;
+    color:white;
+    background-color: red;
+
 }
