@@ -1,6 +1,9 @@
 $(document).ready(function(){
     console.log('javascript is woring');   
-    
+    $(function(){
+        $("#menu").load("/menu"); 
+      });
+      
     var id = (getQueryVariable("id"));
     var host = location.protocol + '//' + location.host
     
@@ -46,5 +49,27 @@ $(document).ready(function(){
        }
        return(false);
     }
+
+    var x = setInterval(function() {
+
+        var now = new Date().getTime();
+        var countDownDate = new Date("July 5, 2018 15:37:25").getTime();
+
+        
+        var distance = countDownDate - now;
+
+        var hours = Math.floor(distance / (1000 * 60 * 60));
+        var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+        var seconds = Math.floor((distance % (1000 * 60)) / 1000);
+        
+        $("#hour")[0].innerHTML= hours
+        $("#min")[0].innerHTML= minutes
+        $("#sec")[0].innerHTML= seconds
+
+        if (distance < 0) {
+            clearInterval(x);
+            document.getElementById("countDownTitle").innerHTML = "EXPIRED";
+        }
+    }, 1000);
     
 })

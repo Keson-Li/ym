@@ -18,7 +18,7 @@
 #productLable{
     background-color: red;
     height: 70px;
-    width:68vw;
+    width:65vw;
 }
 #oldPrice,#selfTag{
     margin-top: 20px;
@@ -68,9 +68,9 @@
     
 }
 #timer{
-    margin-left:auto;
+    margin-left:35%;
     margin-right:auto;
-    width: 30%;
+    width: 50%;
     text-align: center;
 }
 .time{
@@ -94,4 +94,14 @@
     margin-left: auto;
 	margin-right: auto;
 	display: block;
+}
+
+#comment{
+    margin-top:2vh;
+    margin-bottom: 12vh;
+}
+.userIcon{
+    height:30px;
+    max-width:30px;
+    
 }

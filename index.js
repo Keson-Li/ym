@@ -1,5 +1,5 @@
 //set everything up
-const port = process.env.PORT || 80;
+const port = process.env.PORT || 8080;
 const path = require("path");
 const bodyParser = require("body-parser");
 const express = require("express");
@@ -47,7 +47,7 @@ app.get("/sales",function(req,resp){
     resp.sendFile(pF+"/sales.html")
 })
 
-app.get("/productDetail", function(req, resp){
+app.get("/productDetails", function(req, resp){
     resp.sendFile(pF+"/productDetail.html");   
 });
 
@@ -57,6 +57,9 @@ app.get("/shopingCart", function(req, resp){
 
 app.get("/header",function(req,resp){
     resp.sendFile(pF+"/header.html");
+})
+app.get("/menu",function(req,resp){
+    resp.sendFile(pF+"/menu.html");
 })
 
 app.get("/", function(req, resp){

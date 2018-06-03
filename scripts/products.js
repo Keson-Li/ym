@@ -4,6 +4,9 @@ $(document).ready(function(){
         $("#catagoryDiv").load("/header"); 
       });
     
+    $(function(){
+        $("#menu").load("/menu"); 
+      });
     var productBody = document.getElementById("productBody")
     var cata = (getQueryVariable("cata"));
     var host = location.protocol + '//' + location.host
