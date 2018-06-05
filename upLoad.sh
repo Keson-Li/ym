@@ -1,5 +1,6 @@
 # # !/bin/bash
 scp -r ./admin wp:/home/admin/webapp/
+scp -r ./uploads wp:/home/admin/webapp/
 scp -r ./build wp:/home/admin/webapp/
 scp -r ./css wp:/home/admin/webapp/
 scp -r ./database wp:/home/admin/webapp/

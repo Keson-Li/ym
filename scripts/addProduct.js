@@ -61,10 +61,11 @@ $(document).ready(function(){
 
 
       $("#productDetail").submit(function(e) {
-            alert(name.value);     
+            // alert(name.value);     
             if(!isPriceValidated || !isOriginPriceValidated){
                   alert('请输入合法的数据。');
             }else{
+                  console.log(document.getElementById('productImg').value);
                   document.getElementById("addProduct").style.display = 'none';
                   document.getElementById("confirmInfo").innerHTML = '<h1>请再一次确认输入无误！</h1><br>    <form>\
                   名字: <label>'+ name.value+'</label><br>\

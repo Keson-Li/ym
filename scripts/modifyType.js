@@ -393,6 +393,7 @@ function setPromote(productID){
         yesBut                 = document.createElement("input");
         noBut                  = document.createElement("input");
         allPromoto             = ['人气榜单','新人福利社','四月更新','今日疯抢','节日推广','当红牛市'];
+        allPromotoEg           =['is_popular','is_newMan', 'is_newUpdated','is_heat', 'is_event_sale', 'is_promoting'];
     $.ajax({
         url:"/checkProductPromoto",
         type:"POST",
@@ -406,8 +407,31 @@ function setPromote(productID){
 
                 var promoteTypes = resp.promoteTypes;
                     productInfo = document.createElement("label");
-                    productInfo.innerHTML = promoteTypes[0].name;
                     br    = document.createElement("br");
+                    allPromotoType = ''
+
+                if(promoteTypes[0].is_popular == '1'){
+                    allPromotoType += '/人气榜单';
+                };
+                if(promoteTypes[0].is_newMan == '1'){
+                    allPromotoType += '/新人福利社';
+                };
+                if(promoteTypes[0].is_newUpdated =='1'){
+                    allPromotoType += '/四月更新';
+                };
+                if(promoteTypes[0].is_heat == '1'){
+                    allPromotoType += '/今日疯抢';
+                };
+                if(promoteTypes[0].is_event_sale == '1'){
+                    allPromotoType += '/节日推广';
+                };
+                if(promoteTypes[0].is_promoting == '1'){
+                    allPromotoType += '/当红牛市';
+                };
+
+                productInfo.innerHTML = '产品-' +promoteTypes[0].name + ' 当前推广类别为（'+allPromotoType + ')';
+                    
+                console.log(promoteTypes);
                 document.getElementById("setCatagoryForm").appendChild(productInfo);
                 document.getElementById("setCatagoryForm").appendChild(br);
                 if(true){
@@ -420,9 +444,16 @@ function setPromote(productID){
                          
                         input.type = "checkbox";
                         input.className = 'promoteCheckbox';
-                        // input.name = "cata" + catagories[i].id;
+                        input.name = i;
+                        if(promoteTypes[0][allPromotoEg[i]] == '1'){
+                            input.checked = true;
+                            label.innerHTML = (i+1) +' : <b>'+allPromoto[i] +'</b>';
+                        }else{
+                            label.innerHTML = (i+1) +' : '+allPromoto[i];
+
+                        };
                         
-                        label.innerHTML = allPromoto[i];
+                        
                         document.getElementById("setCatagoryForm").appendChild(input);
                         document.getElementById("setCatagoryForm").appendChild(label);
                         document.getElementById("setCatagoryForm").appendChild(br);
@@ -442,35 +473,38 @@ function setPromote(productID){
                     document.getElementById("setCatagoryForm").appendChild(noBut);
                     yesBut.addEventListener('click', function(e){
                         e.preventDefault(); 
-                        console.log($("#setCatagoryForm").serializeArray());
+                        var userSelected = $("#setCatagoryForm").serializeArray();
+                        var selectedIndex = [];
 
-                        // if(!$("#setCatagoryForm").serializeArray().length == 0){
-                            
-                        //     var cataID = $("#setCatagoryForm").serializeArray()[0]['name'].substring(4);
-                        //     console.log('productid is '+productID+'cataid' + cataID);
-                        //     $.ajax({
-                        //         type: "POST",
-                        //         url: "/setCatagory",
-                        //         data: {
-                        //             'productID': productID,
-                        //             'cataID': cataID,
+                        if(userSelected.length > 0){
 
-                        //         },
-                        //         success: function(data){
-                        //             if(data.status == 'success'){
-                        document.getElementById('setCatagoryDiv').style.display = 'none';
-                        //                 // location.reload();
-                        //             };
+                            for (var i =0; i < userSelected.length; i++ ){
+                                selectedIndex.push(parseInt(userSelected[i].name));
+
+                            }
+
+                            $.ajax({
+                                type: "POST",
+                                url: "/setPromte",
+                                data: {
+                                    'productID': productID,
+                                    'index': selectedIndex,
+
+                                },
+                                success: function(data){
+                                    if(data.status == 'success'){
+                                        document.getElementById('setCatagoryDiv').style.display = 'none';
+                                    };
             
-                        //             if(data.status == 'failed'){
-                        //                 alert('无法修改分类');
+                                    if(data.status == 'failed'){
+                                        alert('无法修改分类');
             
-                        //             }
-                        //     }
-                        //  });
-                        // }else{
-                        //     alert('请选择一个分类');
-                        // }
+                                    }
+                                }
+                            });
+                        }else{
+                            alert('请选择一个分类');
+                        }
                     });
                     noBut.addEventListener('click', function(e){
                         document.getElementById('setCatagoryDiv').style.display = 'none';
