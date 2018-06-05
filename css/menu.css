@@ -1,0 +1,25 @@
+#menu{
+    position:fixed;
+    bottom:0vh;
+    width:100%;
+    height: 10vh;
+    width:100vw;
+    background-color: black;
+    text-align: center;
+    border-radius:10px;
+}
+.menuText{
+    float: left;
+    color:white;
+    padding-top: 1vh;
+    font-size: 5vh;
+    width:33%;
+    height: 100%;
+    
+
+}
+.menuBorder{
+    border-right: 5px;
+    border-right-color: aqua;
+    border-right-style: solid;
+}

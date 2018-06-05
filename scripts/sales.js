@@ -1,19 +1,18 @@
-$(document).ready(function(){  
+$(document).ready(function(){
+    console.log('javascript is woring');   
     $(function(){
         $("#catagoryDiv").load("/header"); 
       });
     
-    $(function(){
-        $("#menu").load("/menu"); 
-      });
     var productBody = document.getElementById("productBody")
-    var cata = (getQueryVariable("cata"));
+    var saleType = (getQueryVariable("type"));
     var host = location.protocol + '//' + location.host
+
     
     $.ajax({
-        url:"/products",
+        url:"/sales",
         type:"post",
-        data:{cata:cata},
+        data:{type:saleType},
         success:function(resp){
             console.log(resp)
             for(var i=0;i<resp.product.length;i=i+2){
@@ -114,20 +113,10 @@ $(document).ready(function(){
             }
         }
 
-        if(product1.is_heat ==1){
-            var heat = document.createElement("div");
-            heat.className="otherTag";
-            heat.innerHTML="今日疯抢";
-            tag1.appendChild(heat);
-            heat.onclick=function(){
-                goToSales("heat")
-            }
-        }
-
         if(product1.is_event_sale ==1){
             var eventSale = document.createElement("div");
             eventSale.className="otherTag";
-            eventSale.innerHTML="节日促销";
+            eventSales.className="节日促销";
             tag1.appendChild(eventSale);
             eventSale.onclick=function(){
                 goToSales("eventSale")
@@ -173,19 +162,10 @@ $(document).ready(function(){
                     goToSales("promoting")
                 }
             }
-            if(product2.is_heat ==1){
-                var heat = document.createElement("div");
-                heat.className="otherTag";
-                heat.innerHTML="今日疯抢";
-                tag2.appendChild(heat);
-                heat.onclick=function(){
-                    goToSales("heat")
-                }
-            }
             if(product2.is_event_sale ==1){
                 var eventSale = document.createElement("div");
                 eventSale.className="otherTag";
-                eventSales.innerHTML="节日促销";
+                eventSales.className="节日促销";
                 tag2.appendChild(eventSale);
                 eventSale.onclick=function(){
                     goToSales("eventSale")

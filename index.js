@@ -1,5 +1,4 @@
 //set everything up
-
 const port = process.env.PORT || 80;
 const path = require("path");
 const bodyParser = require("body-parser");
@@ -18,7 +17,7 @@ var app = express();
 const server = require("http").createServer(app);
 
 //create a socket server with the new server
-var io = require("socket.io")(server);
+// var io = require("socket.io")(server);
 
 // use body parser
 app.use(bodyParser.urlencoded({
@@ -37,6 +36,7 @@ app.use(session({
 }));
 
 app.use("/scripts", express.static("build"));
+app.use("/script", express.static("scripts"));
 app.use("/imgs", express.static("images"));
 app.use("/css", express.static("css"));
 app.use("/ad", express.static("admin"));
@@ -51,6 +51,30 @@ app.get("/test", function(req, resp){
     resp.sendFile(mM+"/testfile.html");   
 });
 //root folder
+
+app.get("/products", function(req, resp){
+    resp.sendFile(pF+"/products.html");   
+});
+
+app.get("/sales",function(req,resp){
+    resp.sendFile(pF+"/sales.html")
+})
+
+app.get("/productDetails", function(req, resp){
+    resp.sendFile(pF+"/productDetail.html");   
+});
+
+app.get("/shopingCart", function(req, resp){
+    resp.sendFile(pF+"/shopingCart.html");   
+});
+
+app.get("/header",function(req,resp){
+    resp.sendFile(pF+"/header.html");
+})
+app.get("/menu",function(req,resp){
+    resp.sendFile(pF+"/menu.html");
+})
+
 app.get("/", function(req, resp){
     resp.sendFile(pF+"/index.html");   
 });
@@ -71,6 +95,7 @@ app.get("/main", function(req, resp){
     }
        
 });
+
 
 app.get("/addProducts", function(req, resp){
     if(req.session.userID != null){
@@ -114,6 +139,8 @@ var DB = new Client({
     password: 'yomall',
     db:'yomall'
 });
+
+
 
 // DB.query('SHOW Tables', function(err, rows) {
 //     if (err)
@@ -283,6 +310,25 @@ app.get("/checkAllCatagories", function(req,resp){
 
 });
 
+app.post("/checkAllCatagories", function(req,resp){
+    DB.query('SELECT id, name FROM catagory', function(err, rows) {
+        if (err)
+            throw err;
+        if(rows.length > 0 ){
+            resp.send({
+                status:"success",
+                catagories:rows
+            });
+        }else{
+            resp.send({
+                status:"noCatagory",
+            });
+        }
+    });
+    DB.end(); 
+    
+
+});
 
 // -------------------------------------add a product -----------------------------------------
 app.post("/addProducts", function(req, resp){
@@ -572,75 +618,112 @@ app.post("/setPromte", function(req, resp){
        
 });
 
+// -------------------------------------load product -----------------------------------------
 
-
-app.post("/createitem", function(req,resp){
-    var title = req.body.title;
-    var desc = req.body.desc;
-    pg.connect(dbURL, function(err, client, done){
+app.post("/products",function(req,resp){
+    console.log(req.body)
+    DB.query("SELECT * FROM product WHERE catagory_id = ? and is_active = 0",[req.body.cata],function(err,result){
         if(err){
-            console.log(err);
-            resp.end("FAIL");
+            console.log(err)
         }
-        
-        client.query("INSERT INTO items(user_id, title, description) values ($1, $2, $3)", [req.session.user,title,desc], function(err, result){
-            done();
+        console.log(result)
+        if (result != undefined && result.length >0){
+            console.log(result)
+            resp.send({
+                status:"success",
+                product:result
+            })
+        }
+    })
+})
+// -------------------------------------load sales product -----------------------------------------
+app.post("/sales",function(req,resp){
+
+    var saleType=req.body.type;
+    if(saleType == "self"){
+        DB.query("SELECT * FROM product WHERE is_own = 1 and is_active = 1",function(err,result){
             if(err){
-                console.log("err occur")
-            }else{
+                console.log(err)
+            }
+            console.log(result)
+            if(result != undefined && result.length >0){
                 resp.send({
-                    status:"success",
-                    user:req.session.user
+                    status:"succes",
+                    product:result
                 })
             }
         })
-    })
-    
-
-});
-
-app.post("/checkallitem", function(req,resp){
-     pg.connect(dbURL, function(err, client, done){
-        if(err){
-            console.log(err);
-            resp.end("FAIL");
-        }
-        
-        client.query("select * from items", [], function(err, result){
-            done();
+    }
+    if(saleType == "heat"){
+        DB.query("SELECT * FROM product WHERE is_heat = 1 and is_active = 1",function(err,result){
             if(err){
-                console.log("err occur")
-            }else{
+                console.log(err)
+            }
+            console.log(result)
+            if(result != undefined && result.length >0){
                 resp.send({
-                    arr:result.rows
+                    status:"succes",
+                    product:result
                 })
             }
-        });
-    })
-});
-
-app.post("/checkuseritem", function(req,resp){
-     pg.connect(dbURL, function(err, client, done){
-        if(err){
-            console.log(err);
-            resp.end("FAIL");
-        }
-        
-        client.query("select * from items wherer user_id = $1", [req.session.user], function(err, result){
-            done();
+        })
+    }
+    if(saleType == "promoting"){
+        DB.query("SELECT * FROM product WHERE is_promoting =1 and is_active = 1",function(err,result){
             if(err){
-                console.log("err occur")
-            }else{
+                console.log(err)
+            }
+            if(result != undefined && result.length >0){
                 resp.send({
-                    arr:result.rows
+                    status:"succes",
+                    product:result
                 })
             }
-        });
+        })
+    }
+    if(saleType == "eventSale"){
+        DB.query("SELECT * FROM product WHERE is_event_sale =1 and is_active = 1",function(err,result){
+            if(err){
+                console.log(err)
+            }
+            if(result != undefined && result.length >0){
+                resp.send({
+                    status:"succes",
+                    product:result
+                })
+            }
+        })
+    }
+    DB.query("SELECT * FROM product WHERE catagory_id = ? and is_active = 1",[req.body.cata],function(err,result){
+        if(err){
+            console.log(err)
+        }
+        console.log(result)
+        if (result != undefined && result.length >0){
+            console.log(result)
+            resp.send({
+                status:"succes",
+                product:result
+            })
+        }
     })
-});
-
-
-
+})
+// -------------------------------------load product details -----------------------------------------
+app.post("/productDetail",function(req,resp){
+    console.log(resp);
+    DB.query("SELECT * FROM product WHERE id = ?",[req.body.id],function(err,result){
+        if(err){
+            console.log(err)
+        }
+        console.log(result)
+        if(result != undefined && result.length>0){
+            resp.send({
+                status:"success",
+                product:result
+            })
+        }
+    })
+})
 
 app.post("/u/logout", function(req,resp){
     req.session.destroy();
@@ -651,17 +734,17 @@ app.post("/u/logout", function(req,resp){
 
 
 //setup io
-io.on("connection", function(socket){
-    socket.on("message",function(msg){
-        console.log("socket worked");
-        socket.emit("response", msg+" is received");
-    });
+// io.on("connection", function(socket){
+//     socket.on("message",function(msg){
+//         console.log("socket worked");
+//         socket.emit("response", msg+" is received");
+//     });
     
-    socket.on("disconnect", function(){
+//     socket.on("disconnect", function(){
         
-    });
+//     });
     
-});
+// });
 
 //listen to the port
 server.listen(port, function(err){
