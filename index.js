@@ -8,6 +8,9 @@ const Client = require("mariasql");
 const upload = require("express-fileupload");
 const fs = require("fs");
 const multer = require('multer');
+var wechat = require('wechat');
+var wechatCenter = require('./server/controllers/wechatCenter');
+var config = require('./server/config');
 
 
 var app = express();
@@ -15,6 +18,9 @@ var app = express();
 
 //create a new server for socket, but combine it with express functions
 const server = require("http").createServer(app);
+
+// wechat development
+app.use('/wechat', wechat(config.wechat_validate.token, wechatCenter.all));
 
 //create a socket server with the new server
 // var io = require("socket.io")(server);
